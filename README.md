@@ -11,6 +11,8 @@ How do I use it?
 ---------------------------------------
 Example:
 
+	Ti.include('js/titanium_oauth.js');
+	
 	var oauth = new TitaniumOAuth('Consumer key','Consumer secret');
 	
 	var options = {
