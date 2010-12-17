@@ -21,11 +21,11 @@ Example:
 		       ]
 		    };
 	
-	var request_callback = function(){
-		oauth.request(options);
-	};
-	
-	oauth.requestToken(request_callback);
+	oauth.requestToken(function() {
+		oauth.request(options, function(data) {
+			Ti.API.info(data);
+		});
+	});
 
 
 

@@ -25,8 +25,8 @@
 * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-Ti.include('sha1.js');
-Ti.include('oauth.js');
+Ti.include('js/sha1.js');
+Ti.include('js/oauth.js');
 
 var TitaniumOAuth = function(ck, cs) {
 
@@ -191,7 +191,7 @@ var TitaniumOAuth = function(ck, cs) {
 	};
 	
 	// Request
-	this.request = function(options) {
+	this.request = function(options, callback) {
 		 
         var message = {
             method: options.method,
@@ -217,7 +217,7 @@ var TitaniumOAuth = function(ck, cs) {
 		var xhr = Titanium.Network.createHTTPClient();
 		xhr.onload = function()
 		{
-			 Ti.API.debug(this.responseText);
+			 callback(this.responseText);
 		};
 		xhr.onerror = function() {
 			 Ti.UI.createAlertDialog({
