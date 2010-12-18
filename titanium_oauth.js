@@ -30,19 +30,18 @@ Ti.include('js/oauth.js');
 
 var TitaniumOAuth = function(ck, cs) {
 
-//	Ti.App.Properties.setString('oauthToken', null);
-//	Ti.App.Properties.setString('oauthTokenSecret', null);
-//	Ti.App.Properties.setString('accessToken', null);
-//  Ti.App.Properties.setString('accessTokenSecret', null);
+	//Ti.App.Properties.setString('oauthToken', null);
+	//Ti.App.Properties.setString('oauthTokenSecret', null);
+	//Ti.App.Properties.setString('accessToken', null);
+    //Ti.App.Properties.setString('accessTokenSecret', null);
 
 	var that = this;
 	var currentWin = Ti.UI.currentWindow;
-	var oauthParams = [];
-	var webView = null;
+	var oauthWin = null;
 	var oauthToken = Ti.App.Properties.getString('oauthToken');
 	var oauthTokenSecret = Ti.App.Properties.getString('oauthTokenSecret');
 	var accessToken = Ti.App.Properties.getString('accessToken');
-    var accessTokenSecret = Ti.App.Properties.getString('accessTokenSecret');
+	var accessTokenSecret = Ti.App.Properties.getString('accessTokenSecret');
 	
 	var consumer = {
 	    consumerKey:      ck,
@@ -77,11 +76,11 @@ var TitaniumOAuth = function(ck, cs) {
 			var pin = dom.getElementById('oauth_pin');
 			if (pin) {			
 				that.accessToken(pin.text);
-				if(webView != null) {
-					currentWin.remove(webView);
+				if(oauthWin != null) {
+					oauthWin.close();
 					Ti.UI.createAlertDialog({
 		                title: 'Success',
-		                message: 'Successful access to Twitter.'
+		                message: 'You have successfully logged in.'
 		            }).show();
 				}				
 			}
@@ -180,13 +179,76 @@ var TitaniumOAuth = function(ck, cs) {
 	// Show Authorization Web View
 	this.oauthWebView = function(params)
 	{
-		// WebView
-	    var authWebView = Ti.UI.createWebView({url: params.url});
-		authWebView.addEventListener('load', getPIN);
-	    currentWin.add(authWebView);
 		
-		//  Set the webView so we can remove it in the callback
-		webView = authWebView;
+		var t = Titanium.UI.create2DMatrix().scale(0);
+		
+		var win = Ti.UI.createWindow({
+			backgroundColor:'#CCE6F0',
+			borderWidth:4,
+			borderColor:'#52D3FE',
+			height:350,
+			width:275,
+			borderRadius:10,
+			transform:t
+        });
+
+		// WebView
+	    var authWebView = Ti.UI.createWebView({
+				url: params.url
+			});
+		
+		authWebView.addEventListener('load', getPIN);
+	    win.add(authWebView);
+		
+		// Remove window button
+		var cl = Ti.UI.createLabel({
+			width: 24,
+			height: 24,
+			right: 10, 
+			top: 10,
+			borderRadius: 6,
+			borderColor: '#52D3FE',
+			backgroundColor: '#52D3FE',
+			text: 'X',
+			textAlign: 'center',
+			font:{fontSize:11, fontWeight: 'bold'},
+			color:'#fff'
+		});
+		
+		cl.addEventListener('click', function(e){
+			var a = Titanium.UI.createAnimation({opacity: 0, duration: 300});
+			win.animate(a, function(){
+				win.close();
+			})
+		});
+		
+		win.add(cl);
+		
+		win.open();
+		
+		// Window Animation
+		var t1 = Ti.UI.create2DMatrix().scale(0);
+		var t2 = Ti.UI.create2DMatrix().scale(1.1);
+		var t3 = Ti.UI.create2DMatrix().scale(1.0);
+		
+		var a = Titanium.UI.createAnimation({transform: t1, duration: 300});
+		var a2 = Titanium.UI.createAnimation({transform: t2, duration: 350});
+		var a3 = Titanium.UI.createAnimation({transform: t3, duration: 400});
+		
+		win.animate(a);
+		
+		a.addEventListener('complete', function()
+		{
+			win.animate(a2);
+		});
+		
+		a2.addEventListener('complete', function()
+		{
+			win.animate(a3);
+		});
+		
+		// Set the window so we can remove it in the callback
+		oauthWin = win;
 	
 	};
 	
@@ -217,7 +279,7 @@ var TitaniumOAuth = function(ck, cs) {
 		var xhr = Titanium.Network.createHTTPClient();
 		xhr.onload = function()
 		{
-			 callback(this.responseText);
+			 callback(this);
 		};
 		xhr.onerror = function() {
 			 Ti.UI.createAlertDialog({
@@ -231,4 +293,3 @@ var TitaniumOAuth = function(ck, cs) {
 	};
 
 };
-
