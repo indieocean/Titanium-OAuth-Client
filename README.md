@@ -32,7 +32,7 @@ Example:
 Login and Logout Events
 
     oauth.addEventListener('login', function(){ 
-	    // Do something;
+	    // Do something
     });
 
     oauth.addEventListener('logout', function(){ 
