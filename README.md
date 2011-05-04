@@ -4,8 +4,7 @@ Titanium OAuth Client
 What is it?
 ---------------------------------------
 This is a very simple and user friendly OAuth Client for Titanium Mobile. I'm currently using it for Twitter.
-
-It's a work in progress not for production use.
+ 
 
 How do I use it?
 ---------------------------------------
