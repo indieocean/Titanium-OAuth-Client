@@ -30,6 +30,26 @@ Example:
 	});
 
 
+Login and Logout Events
+    oauth.addEventListener('login', function(){ 
+	    // Do something;
+    });
+
+    oauth.addEventListener('logout', function(){ 
+	    // Do something
+    });
+    
+Checking if you are logged in.
+    if (oauth.loggedIn()) { 
+    	// Do something
+    };
+	
+Login Out
+    oauth.logout();
+    
+
+
+
 
 
 
