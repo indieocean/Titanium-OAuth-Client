@@ -30,6 +30,7 @@ Example:
 
 
 Login and Logout Events
+
     oauth.addEventListener('login', function(){ 
 	    // Do something;
     });
@@ -39,11 +40,13 @@ Login and Logout Events
     });
     
 Checking if you are logged in.
+
     if (oauth.loggedIn()) { 
     	// Do something
     };
 	
 Login Out
+
     oauth.logout();
     
 
