@@ -25,13 +25,14 @@
 * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-Ti.include('js/sha1.js');
-Ti.include('js/oauth.js');
+Ti.include('sha1.js');
+Ti.include('oauth.js');
 
 var TitaniumOAuth = function(ck, cs) {
 
 	var self = this;
 	var currentWin = Ti.UI.currentWindow;
+	var authWebView = null;
 	var oauthWin = null;
 
 	var consumer = {
@@ -211,7 +212,7 @@ var TitaniumOAuth = function(ck, cs) {
         });
 
 		// WebView
-	    var authWebView = Ti.UI.createWebView({
+	    authWebView = Ti.UI.createWebView({
 				url: params.url
 			});
 		
