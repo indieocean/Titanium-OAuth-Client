@@ -58,14 +58,17 @@ var TitaniumOAuth = function(ck, cs) {
 	// Get Authorization PIN
 	var getPIN = function(e)
 	{
-		if (e.source.html != 'undefined') {
-			var dom = Ti.XML.parseString(e.source.html);
-			var pin = dom.getElementById('oauth_pin');
-			if (pin) {			
-				self.accessToken(pin.text);
-				if(oauthWin != null) {
-					oauthWin.close();
-				}				
+		var html = authWebView.evalJS("document.getElementById('oauth_pin').innerHTML");
+		if (html != '') {
+			var regex = new RegExp("([0-9]+)", "m"); 
+			if (regex) {
+				var pin = html.match(regex)[0]; 
+				if (pin) {
+					self.accessToken(pin);
+					if(oauthWin != null) {
+						oauthWin.close();
+					}				
+				}
 			}
 		}
 	};
