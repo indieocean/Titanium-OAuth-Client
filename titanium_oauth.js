@@ -114,8 +114,8 @@ var TitaniumOAuth = function(ck, cs) {
 			}
 			
 			// Set Tokens
-			Ti.App.Properties.setString('oauthToken', this.responseText.match(/oauth_token=([^&]+)&/)[1]);
-			Ti.App.Properties.setString('oauthTokenSecret', this.responseText.match(/oauth_token_secret=([^&]+)&/)[1]);
+			Ti.App.Properties.setString('oauthToken', this.responseText.match(/oauth_token=([^&]+)/)[1]);
+			Ti.App.Properties.setString('oauthTokenSecret', this.responseText.match(/oauth_token_secret=([^&]+)/)[1]);
 			
 			// Access Token Secret
 			accessor.tokenSecret = Ti.App.Properties.getString('accessTokenSecret');
